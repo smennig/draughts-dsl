@@ -1,3 +1,5 @@
+package de.htwg.draughts.dsl
+
 object GameSituationTransformer {
 
   def apply(parseResult: Either[String, GameSituation]):
