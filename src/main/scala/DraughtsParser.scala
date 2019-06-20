@@ -26,9 +26,9 @@ class DraughtsParser extends RegexParsers {
     rep(field)
 
   private def field: Parser[Field] =
-    "" ~ letter ~ digit ~ piece ^^ {
+    "" ~ letter ~ row ~ piece ^^ {
       case _ ~ col ~ row ~ p =>
-        val field = Field(column = mapLetterToCol(col), row = row)
+        val field = Field(column = mapLetterToCol(col), row = row-1)
         field.piece_(Some(p))
         field
     }
@@ -43,8 +43,8 @@ class DraughtsParser extends RegexParsers {
     "ABCDEFGH".indexOf(letter)
   }
 
-  private def digit: Parser[Int] =
-    """\d""".r ^^ (_.toInt)
+  private def row: Parser[Int] =
+    """[1-8]""".r ^^ (_.toInt)
 
   private def letter: Parser[String] =
     """\w""".r ^^ (_.toString)
@@ -59,10 +59,13 @@ class DraughtsParser extends RegexParsers {
       case "white" => Colour.WHITE
     }
 
-  def parseDSL(input: String): ParseResult[GameSituation] =
-    parse(gameSituationParser, input)
+  def parseDSL(input: java.io.Reader): Either[String,GameSituation] =
+   parse(gameSituationParser, input) match {
+      case Success(g,_) => Right(g)
+      case NoSuccess(msg, next) =>
+        val pos = next.pos
+        Left(s"[$pos] failed parsing: msg $msg \n\n${pos.longString}")
 
-  def parseDSL(input: java.io.Reader): ParseResult[GameSituation] =
-    parse(gameSituationParser, input)
+    }
 
 }
