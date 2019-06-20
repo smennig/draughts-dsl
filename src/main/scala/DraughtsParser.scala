@@ -62,4 +62,7 @@ class DraughtsParser extends RegexParsers {
   def parseDSL(input: String): ParseResult[GameSituation] =
     parse(gameSituationParser, input)
 
+  def parseDSL(input: java.io.Reader): ParseResult[GameSituation] =
+    parse(gameSituationParser, input)
+
 }
