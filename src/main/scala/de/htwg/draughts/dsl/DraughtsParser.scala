@@ -1,4 +1,6 @@
-import model._
+package de.htwg.draughts.dsl
+
+import de.htwg.draughts.model._
 
 import scala.util.parsing.combinator._
 
@@ -35,8 +37,8 @@ class DraughtsParser extends RegexParsers {
 
   private def piece: Parser[Piece] =
     word ~ color ^^ {
-      case "king" ~ colour => King(colour)
-      case "man" ~ colour => Man(colour)
+      case "king" ~ colour => Piece(colour, "King")
+      case "man" ~ colour => Piece(colour, "Man")
     }
 
   private def mapLetterToCol(letter: String): Int = {

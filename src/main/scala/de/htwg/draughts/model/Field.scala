@@ -1,4 +1,4 @@
-package model
+package de.htwg.draughts.model
 
 case class Field(column: Int, row: Int, var highlighted: Boolean = false) {
     var piece: Option[Piece] = Option.empty

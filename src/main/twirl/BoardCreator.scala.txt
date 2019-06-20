@@ -1,0 +1,24 @@
+@(game: de.htwg.draughts.dsl.GameSituation)
+package de.htwg.draughts.model
+
+class BoardCreator(size: Int = 8) {
+
+    def setupFields(): DraughtsBoard = {
+        val board = new DraughtsBoard(size, true)
+        @for(field <- game.fields) {
+        board.setPieceOnField(@field.column)(@field.row)(@field.piece.get.kind (Colour.@field.piece.get.getColour))}
+        board
+    }
+
+    def getPieceColour(row: Int): Colour.Value = {
+        row match {
+            case x if 0 to 2 contains x => Colour.BLACK
+            case x if size - 3 until size contains x => Colour.WHITE
+        }
+    }
+
+    def setupEmptyBoard(): DraughtsBoard = {
+        new DraughtsBoard(size, true)
+    }
+
+}

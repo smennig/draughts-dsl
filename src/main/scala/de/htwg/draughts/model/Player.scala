@@ -1,4 +1,4 @@
-package model
+package de.htwg.draughts.model
 
 case class Player(name: String, color: Colour.Value, var turn: Boolean, var hasKing: Boolean = false, var pieces: Int = 12) {
 
